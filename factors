@@ -1,8 +1,21 @@
-#!/bin/bash
+#!/usr/bin/python3
 
-FILE=$1
-while read NUMBERS;
-do
-	factors=($(factor $NUMBERS))
-	echo "$NUMBERS=$(($NUMBERS/${factors[1]}))*${factors[1]}"
-done < $FILE
+from sys import argv
+
+def factorize(n):
+    # Start from 2 and try to divide the number
+    for i in range(2, int(n**0.5) + 1):
+        if n % i:
+            continue
+        return i, n // i
+    return n, 1
+
+def main():
+    with open(argv[1]) as file:
+        for line in file:
+            n = int(line.strip())
+            p, q = factorize(n)
+            print(f"{n}={p}*{q}")
+
+if __name__ == "__main__":
+    main()
